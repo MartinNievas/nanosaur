@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<robot name="nanosaur" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:arg name="nsp" default="robot0" />
+    <xacro:arg name="tfpre" default="h0_tf" />
+
+    <xacro:arg name="laser_enabled" default="$(optenv SIMPLE_ROBOT_LASER_ENABLED 0)" />
+
+    <xacro:include filename="$(find nanosaur_description)/urdf/nanosaur.gazebo" />
+    <xacro:include filename="$(find nanosaur_description)/urdf/materials.urdf" />
+    <!-- nanosaur parts -->
+    <xacro:include filename="$(find nanosaur_description)/urdf/track.urdf.xacro" />
+    <xacro:include filename="$(find nanosaur_description)/urdf/head.urdf.xacro" />
+    <xacro:include filename="$(find nanosaur_description)/urdf/flap.urdf.xacro" />
+    <!-- Global properties -->
+    <xacro:property name="M_PI" value="3.14159"/>
+    <xacro:property name="path_meshes" value="package://nanosaur_description/meshes"/>
+
+    <xacro:property name="sprocket_radius" value="0.0105"/>
+
+    <xacro:property name="motor_board_angle" value="35"/>
+
+    <link name="base_link"/>
+
+    <joint name="base_front_joint" type="fixed">
+        <origin xyz="0 0 0.03" rpy="0 0 0" />
+        <parent link="base_link"/>
+        <child link="base_front"/>
+    </joint>
+
+    <link name="base_front">
+        <visual>
+            <geometry><mesh filename="${path_meshes}/base_front.dae" scale="0.001 0.001 0.001"/></geometry>
+            <material name="Green" />
+        </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+    <joint name="base_rear_joint" type="fixed">
+        <origin xyz="0 0 0.03" rpy="0 0 0" />
+        <parent link="base_link"/>
+        <child link="base_rear"/>
+    </joint>
+
+    <link name="base_rear">
+        <visual>
+            <geometry><mesh filename="${path_meshes}/base_rear.dae" scale="0.001 0.001 0.001"/></geometry>
+            <material name="Green" />
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.01" rpy="0 0 0" />
+            <geometry><box size="0.12 0.07 0.03" /></geometry>
+            <material name="Green" />
+        </collision>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+    <joint name="motor_board_joint" type="fixed">
+        <origin xyz="0.055 0 0.005" rpy="0 ${M_PI/2 - motor_board_angle * M_PI/180} 0" />
+        <parent link="base_front"/>
+        <child link="motor_board"/>
+    </joint>
+
+    <link name="motor_board">
+        <visual>
+            <geometry><mesh filename="${path_meshes}/parts/motor_board.dae"/></geometry>
+            <material name="GunMetalGrey" />
+        </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+    <joint name="power_bank_joint" type="fixed">
+        <origin xyz="0.0 0 0.0" rpy="0 0 0" />
+        <parent link="base_rear"/>
+        <child link="power_bank"/>
+    </joint>
+
+    <link name="power_bank">
+        <visual>
+            <origin xyz="0.0 0 -0.0115" rpy="0 0 ${M_PI}" />
+            <geometry><mesh filename="${path_meshes}/parts/power_bank.dae"/></geometry>
+            <material name="DarkGrey" />
+        </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+    <joint name="pb_holder_joint" type="fixed">
+        <origin xyz="-0.0545 0 -0.0061" rpy="0 0 0" />
+        <parent link="base_rear"/>
+        <child link="pb_holder"/>
+    </joint>
+
+    <link name="pb_holder">
+        <visual>
+            <origin xyz="0.0 0 0" rpy="0 0 0" />
+            <geometry><mesh filename="${path_meshes}/pb_holder.dae" scale="0.001 0.001 0.001"/></geometry>
+            <material name="Green" />
+        </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+    <joint name="NVIDIA_jetson_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <parent link="base_rear"/>
+        <child link="NVIDIA_jetson"/>
+    </joint>
+
+    <link name="NVIDIA_jetson">
+        <visual>
+            <origin xyz="0.039 0.022 0.005" rpy="0 0 ${M_PI}" />
+            <geometry><mesh filename="${path_meshes}/parts/NVIDIA_jetson_nano_4gb.dae"/></geometry>
+            <material name="DarkGrey" />
+        </visual>
+      <inertial>
+        <mass value="1e-5" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+    </link>
+
+  <xacro:if value="$(arg laser_enabled)">
+    <!-- Laser sensor link-->
+    <link name="sensor_laser">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="0.1" />
+        <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <!--cylinder radius="0.05" length="0.1"/-->
+          <mesh filename="package://nanosaur_description/meshes/hokuyo.dae"/>
+        </geometry>
+        <material name="red" />
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder radius="0.05" length="0.1"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="joint_sensor_laser" type="fixed">
+      <origin xyz="0 0 0.05" rpy="0 0 0"/>
+      <parent link="base_link"/>
+      <child link="sensor_laser"/>
+    </joint>
+  </xacro:if>
+
+    <xacro:track type="left" parent="base_link" radius="${sprocket_radius}"/>
+    <xacro:track type="right" parent="base_link" radius="${sprocket_radius}"/>
+    <xacro:head />
+    <xacro:flap />
+
+</robot>

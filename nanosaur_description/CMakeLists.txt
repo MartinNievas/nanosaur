@@ -1,21 +1,8 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 2.8.3)
+project(nanosaur_description)
 
-project(nanosaur_description NONE)
+find_package(catkin REQUIRED)
 
-################################################################################
-# Find ament packages and libraries for ament and system dependencies
-################################################################################
-find_package(ament_cmake REQUIRED)
+catkin_package()
 
-################################################################################
-# Install
-################################################################################
-install(
-  DIRECTORY meshes rviz urdf launch
-  DESTINATION share/${PROJECT_NAME}
-)
-
-################################################################################
-# Macro for ament package
-################################################################################
-ament_package()
+include_directories()

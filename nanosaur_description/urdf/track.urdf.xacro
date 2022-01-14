@@ -31,6 +31,11 @@
                 <geometry><cylinder length="0.015" radius="${radius}"/></geometry>
                 <material name="Black" />
             </collision>
+            <inertial>
+              <mass value="1e-5" />
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
         </link>
 
         <joint name="motor_${type}_joint" type="fixed">
@@ -45,6 +50,11 @@
                 <geometry><mesh filename="${path_meshes}/parts/Pololu-Micro-Metal-Gearmotor.stl"/></geometry>
                 <material name="Gold" />
             </visual>
+            <inertial>
+              <mass value="1e-5" />
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
         </link>
 
         <joint name="wheel_${type}_joint" type="continuous">
@@ -68,6 +78,11 @@
                 <geometry><cylinder length="0.015" radius="${radius}"/></geometry>
                 <material name="Black" />
             </collision>
+            <inertial>
+              <mass value="1e-5" />
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
         </link>
 
         <joint name="track_${type}_joint" type="fixed">
@@ -82,6 +97,11 @@
                 <geometry><mesh filename="${path_meshes}/track.stl" scale="0.001 0.001 0.001"/></geometry>
                 <material name="Black" />
             </visual>
+            <inertial>
+              <mass value="1e-5" />
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
         </link>
 
         <joint name="slider_${type}_joint" type="fixed">
@@ -95,6 +115,11 @@
                 <geometry><mesh filename="${path_meshes}/slider.stl" scale="0.001 0.001 0.001"/></geometry>
                 <material name="Green" />
             </visual>
+            <inertial>
+              <mass value="1e-5" />
+              <origin xyz="0 0 0" rpy="0 0 0"/>
+              <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+            </inertial>
         </link>
 
     </xacro:macro>
